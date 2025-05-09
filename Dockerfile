@@ -4,6 +4,7 @@ WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
+COPY tsconfig.json ./
 
 # Install dependencies
 RUN npm install
@@ -11,13 +12,14 @@ RUN npm install
 # Copy source code
 COPY . .
 
+# Create build directory
+RUN mkdir -p build
+
 # Build the application
 RUN npm run build
 
 # Create data directory
 RUN mkdir -p /app/calendar-data
-
-# Set permissions for the data directory
 RUN chown -R node:node /app/calendar-data
 
 # Switch to non-root user
